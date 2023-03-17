@@ -332,6 +332,7 @@
 "Assets/Ardity/Scripts/Threads/SerialThreadLines.cs"
 "Assets/BT_TEST.cs"
 "Assets/DELET.cs"
+"Assets/Draw.cs"
 "Assets/TEXT.cs"
 -langversion:8.0
 

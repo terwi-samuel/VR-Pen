@@ -50,7 +50,7 @@ public class BT_TEST : MonoBehaviour
 
     public string xyMessage = "0.0,0.0";
     public string zMessage = "0.0";
-    public string rotationMessage = "0.0,0.0,0.0";
+    public string rotationMessage = "0.0,0.0,0.0,0.0";
 
     // Constants used to mark the start and end of a connection. There is no
     // way you can generate clashing messages from your serial device, as I
@@ -192,17 +192,28 @@ public class BT_TEST : MonoBehaviour
         ci.NumberFormat.CurrencyDecimalSeparator = ".";
 
         float x = 0f,y = 0f,z = 0f;
-        Vector3 currentAngle = new Vector3(0,0,0);
-
-        if (float.TryParse(xy[0], NumberStyles.Any, ci, out x))
-        if (float.TryParse(xy[1], NumberStyles.Any, ci, out y))
-        if (float.TryParse(zMessage, NumberStyles.Any, ci, out z))
-        if (float.TryParse(rotations[0], NumberStyles.Any, ci, out currentAngle.x))
-        if (float.TryParse(rotations[1], NumberStyles.Any, ci, out currentAngle.y))
-        if (float.TryParse(rotations[2], NumberStyles.Any, ci, out currentAngle.z))
-
-        transform.position = new Vector3(-10 + x * 10,10 + y * -10,-10 + z * 10);
-        transform.eulerAngles = currentAngle;
+        //Vector3 currentAngle = new Vector3(0,0,0);
+        Quaternion currentQuat = new Quaternion(0, 0, 0, 0);
+        if(xy.Length == 2)
+        {
+            if (float.TryParse(xy[0], NumberStyles.Any, ci, out x));
+            if (float.TryParse(xy[1], NumberStyles.Any, ci, out y));
+        }
+        if (float.TryParse(zMessage, NumberStyles.Any, ci, out z));
+        //if (float.TryParse(rotations[0], NumberStyles.Any, ci, out currentAngle.x))
+        //if (float.TryParse(rotations[1], NumberStyles.Any, ci, out currentAngle.y))
+        //if (float.TryParse(rotations[2], NumberStyles.Any, ci, out currentAngle.z))
+        if(rotations.Length == 4)
+        {
+            if (float.TryParse(rotations[0], NumberStyles.Any, ci, out currentQuat.x));
+            if (float.TryParse(rotations[1], NumberStyles.Any, ci, out currentQuat.y));
+            if (float.TryParse(rotations[2], NumberStyles.Any, ci, out currentQuat.z));
+            if (float.TryParse(rotations[3], NumberStyles.Any, ci, out currentQuat.w));
+        }
+        
+        transform.position = new Vector3(-5 + x * 10,5 + y * -10,-5 + z * 10);
+        //transform.eulerAngles = currentAngle;
+        transform.rotation = currentQuat;
     }
     
     // ------------------------------------------------------------------------

@@ -7,6 +7,7 @@ public class TEXT : MonoBehaviour
 {
     public Text textElement;
     public BT_TEST bt;
+    public Draw draw;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,7 +17,7 @@ public class TEXT : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        string message = bt.xyMessage + "\n" + bt.zMessage + "\n" + bt.rotationMessage;
+        string message = bt.xyMessage + "\n" + bt.zMessage + "\n" + bt.rotationMessage + "\n" + draw.text;
         textElement.text = message;
     }
 }
