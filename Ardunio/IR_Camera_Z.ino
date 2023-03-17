@@ -93,7 +93,7 @@ void setup()
     Serial.begin(19200);
     pinMode(ledPin, OUTPUT);      // Set the LED pin as output
     Wire.begin();
-    SerialBT.begin("ESP32test"); //Bluetooth device name
+    SerialBT.begin("ESP32_Z_Camera"); //Bluetooth device name
     Serial.println("The device started, now you can pair it with bluetooth!");
     // IR sensor initialize
     // Write_2bytes(0x30,0x01); delay(10);
@@ -168,27 +168,12 @@ void loop()
         Serial.print("");
       if (Ix[i] < 10)
         Serial.print("");
-      //SerialBT.write('x');
-      //SerialBT.write(':');
-      String string_x = String(float(Ix[i] / 1023),5);
-      int j;
-      for(j = 0; j < 7; j++)
-      {
-        SerialBT.write(string_x[j]);        
-      }
-      SerialBT.write(',');
-      //SerialBT.write('y');
-      //SerialBT.write(':');
-      String string_y = String(float(Iy[i] / 1023),5); // max value of y is 767
-      for(j = 0; j < 7; j++)
-      {
-        SerialBT.write(string_y[j]);
-      }
-      SerialBT.write('\n');
-      SerialBT.write('\n');
       Serial.print(float(Ix[i] / 1023),5);
-      // if (i<3)
-      //   Serial.print(",");
+      String string_z = String(float(Ix[i] / 1023),5); // x is z
+      uint8_t buf[string_z.length()];
+      memcpy(buf, string_z.c_str(),string_z.length());
+      SerialBT.write(buf, string_z.length());
+      SerialBT.println();
     }
     Serial.println("");
     delay(15);

@@ -93,7 +93,7 @@ void setup()
     Serial.begin(19200);
     pinMode(ledPin, OUTPUT);      // Set the LED pin as output
     Wire.begin();
-    SerialBT.begin("ESP32test"); //Bluetooth device name
+    SerialBT.begin("ESP32_XY_Camera"); //Bluetooth device name
     Serial.println("The device started, now you can pair it with bluetooth!");
     // IR sensor initialize
     // Write_2bytes(0x30,0x01); delay(10);
@@ -168,23 +168,17 @@ void loop()
         Serial.print("");
       if (Ix[i] < 10)
         Serial.print("");
-      //SerialBT.write('x');
-      //SerialBT.write(':');
       String string_x = String(float(Ix[i] / 1023),5);
-      int j;
-      for(j = 0; j < 7; j++)
-      {
-        SerialBT.write(string_x[j]);        
-      }
-      SerialBT.write(',');
-      //SerialBT.write('y');
-      //SerialBT.write(':');
-      String string_y = String(float(Iy[i] / 767),5);
-      for(j = 0; j < 7; j++)
-      {
-        SerialBT.write(string_y[j]);
-      }
-      SerialBT.write('\0');
+      uint8_t buf1[string_x.length() + 1];
+      memcpy(buf1, string_x.c_str(),string_x.length());
+      buf1[string_x.length()] = ',';
+      SerialBT.write(buf1, string_x.length()+1);
+      String string_y = String(float(Iy[i] / 1023),5); // max value of y is 767
+      uint8_t buf2[string_y.length()];
+      memcpy(buf2, string_y.c_str(),string_y.length());
+      SerialBT.write(buf2, string_y.length());
+      SerialBT.println();
+      
       Serial.print(float(Ix[i] / 1023),5);
       Serial.print(",");
       if (Iy[i] < 1000)
@@ -193,11 +187,10 @@ void loop()
         Serial.print("");
       if (Iy[i] < 10)
         Serial.print("");
-      Serial.print( float(Iy[i] / 767),5);
-      if (i<3)
-        Serial.print(",");
+      Serial.print( float(Iy[i] / 1023),5);
+      // if (i<3)
+      //   Serial.print(",");
     }
     Serial.println("");
-    //delay(15);
-    delay(100);
+    delay(15);
 }
