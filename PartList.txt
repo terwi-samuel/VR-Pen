@@ -1,0 +1,4 @@
+PEN CIRCUIT:
+  IMU: BNO-055
+  Microcontroller: ESP32-WROOM-32D
+  3 baisic push buttons
