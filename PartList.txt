@@ -1,4 +1,4 @@
 PEN CIRCUIT:
-  IMU: BNO-055
+  IMU: BNO-055, https://www.adafruit.com/product/4646
   Microcontroller: ESP32-WROOM-32D
   3 baisic push buttons
