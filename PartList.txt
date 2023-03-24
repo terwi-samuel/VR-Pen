@@ -3,3 +3,6 @@ PEN CIRCUIT:
   Microcontroller: ESP32-WROOM-32D
   3 basic push buttons
   Vishay TSAL6400 IR LEDs
+  
+Oculus Quest II
+PC with Windows 10
