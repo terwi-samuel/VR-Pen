@@ -1,5 +1,5 @@
 PEN CIRCUIT:
-  IMU: BNO-055, https://www.adafruit.com/product/4646
+  IMU: BNO-055, https://www.adafruit.com/product/4646, Datasheet: https://cdn-shop.adafruit.com/datasheets/BST_BNO055_DS000_12.pdf
   Microcontroller: ESP32-WROOM-32D
   3 basic push buttons
   Vishay TSAL6400 IR LEDs
