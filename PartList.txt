@@ -6,3 +6,7 @@ PEN CIRCUIT:
   
 Oculus Quest II
 PC with Windows 10
+
+
+Possible Choice for battery booster if needed:
+https://www.sparkfun.com/products/retired/10968
