@@ -10,3 +10,6 @@ PC with Windows 10
 
 Possible Choice for battery booster if needed:
 https://www.sparkfun.com/products/retired/10968
+
+circuit builder: https://easyeda.com/
+3d Model: on tincker cad
