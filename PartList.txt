@@ -4,6 +4,14 @@ PEN CIRCUIT:
   3 basic push buttons
   Vishay TSAL6400 IR LEDs
   
+  https://www.amazon.com/Converter-Adjustable-Voltage-Regulator-Compatible/dp/B089JYBF25/ref=sr_1_10?crid=F2X3HDPVEZ4G&keywords=small%2Bstep-up%2Bbooster%2Bcircuit&qid=1680898030&sprefix=small%2Bstep-up%2Bbooster%2Bcircuit%2Caps%2C100&sr=8-10&th=1
+  
+  https://www.amazon.com/LiCB-CR2032-Lithium-Battery-10-Pack/dp/B071D4DKTZ/ref=sr_1_15?crid=IMH5NAUIQSRN&keywords=small+3.3+batteries&qid=1680898564&sprefix=small+3.3+batterie%2Caps%2C111&sr=8-15
+  
+  https://www.amazon.com/LAMPVPATH-CR2032-Battery-Holder-Mounting/dp/B08SQJJJNK/ref=sr_1_4?crid=2YX1TSIU1I4IB&keywords=CR2032+battery+case&qid=1680898636&sprefix=cr2032+battery+case%2Caps%2C123&sr=8-4
+  
+  
+  
 Oculus Quest II
 PC with Windows 10
 
@@ -13,3 +21,6 @@ https://www.sparkfun.com/products/retired/10968
 
 circuit builder: https://easyeda.com/
 3d Model: on tincker cad
+
+
+
