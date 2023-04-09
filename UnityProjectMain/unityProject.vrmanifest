@@ -1,0 +1,16 @@
+{
+  "source": "Unity",
+  "applications": [
+    {
+      "app_key": "application.generated.unity.vr_pen.exe",
+      "launch_type": "url",
+      "url": "steam://launch/",
+      "action_manifest_path": "C:\\Users\\SeniorDesign\\Documents\\GitHub\\VR-Pen\\UnityProjectMain\\Assets\\StreamingAssets\\SteamVR\\actions.json",
+      "strings": {
+        "en_us": {
+          "name": "VR_Pen [Testing]"
+        }
+      }
+    }
+  ]
+}

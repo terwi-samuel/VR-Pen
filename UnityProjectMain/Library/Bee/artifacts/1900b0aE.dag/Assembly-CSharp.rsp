@@ -353,7 +353,21 @@
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEngine.UI.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEngine.XR.LegacyInputHelpers.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/VSSettingsProvider.ref.dll"
-"Assets/TEST.cs"
+"Assets/Ardity/Scripts/Samples/SampleCustomDelimiter.cs"
+"Assets/Ardity/Scripts/Samples/SampleMessageListener.cs"
+"Assets/Ardity/Scripts/Samples/SampleTearDown.cs"
+"Assets/Ardity/Scripts/Samples/SampleUserPolling_JustRead.cs"
+"Assets/Ardity/Scripts/Samples/SampleUserPolling_ReadWrite.cs"
+"Assets/Ardity/Scripts/SerialController.cs"
+"Assets/Ardity/Scripts/SerialControllerCustomDelimiter.cs"
+"Assets/Ardity/Scripts/Threads/AbstractSerialThread.cs"
+"Assets/Ardity/Scripts/Threads/SerialThread.cs"
+"Assets/Ardity/Scripts/Threads/SerialThreadCustomDelimiter.cs"
+"Assets/Ardity/Scripts/Threads/SerialThreadLines.cs"
+"Assets/BT_TEST.cs"
+"Assets/DELET.cs"
+"Assets/Draw.cs"
+"Assets/TEXT.cs"
 -langversion:8.0
 
 /deterministic

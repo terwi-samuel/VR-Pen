@@ -13,6 +13,11 @@ public class Draw : MonoBehaviour
         text = "Hellow Word";
     }
 
+    void Ink()
+    {
+        Instantiate(ink, tip.transform.position, tip.transform.rotation);
+    }
+
     // Update is called once per frame
     void Update()
     {

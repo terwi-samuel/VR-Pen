@@ -32,6 +32,9 @@ BluetoothSerial SerialBT;
 //                                   id, address
 Adafruit_BNO055 bno = Adafruit_BNO055(-1, 0x28, &Wire);
 
+#define BUTTON1 16
+#define BUTTON2 17
+#define BUTTON3 21
 /**************************************************************************/
 /*
     Arduino setup function (automatically called at startup)
@@ -65,10 +68,13 @@ void setup(void)
   bno.setExtCrystalUse(true);
 
   Serial.println("Calibration status values: 0=uncalibrated, 3=fully calibrated");
-  SerialBT.begin("ESP32_IMU"); //Bluetooth device name
+  Serial.println("Calibration status values: 0=uncalibrated, 3=fully calibrated");
+  SerialBT.begin("ESP32_PEN"); //Bluetooth device name
   Serial.println("The device started, now you can pair it with bluetooth!");
+  pinMode(BUTTON1, INPUT_PULLUP);
+  pinMode(BUTTON2, INPUT_PULLUP);
+  pinMode(BUTTON3, INPUT_PULLUP);  
 }
-
 /**************************************************************************/
 /*
     Arduino loop function, called once 'setup' is complete (your own code
@@ -87,12 +93,13 @@ void loop(void)
   imu::Vector<3> euler = bno.getVector(Adafruit_BNO055::VECTOR_EULER);
 
   //Get Quaternion vector
-  imu::Quaternion quat = bno.getQuat();
-
-  double x = quat.x();
-  double y = quat.y();
-  double z = quat.z();
-  double w = quat.w();
+  imu::Quaternion raw_quat = bno.getQuat();
+  imu::Quaternion offset_quat = imu::Quaternion(-0.7071,0,0,-0.7071); // 0.7071,0,0,-0.7071
+  imu::Quaternion pen_quat = raw_quat * offset_quat;
+  double x = pen_quat.x();
+  double y = pen_quat.y();
+  double z = pen_quat.z();
+  double w = pen_quat.w();
 
   Serial.print(x);
   Serial.print(",");
@@ -106,6 +113,9 @@ void loop(void)
   String string_y;
   String string_z;
   String string_w;
+  String string_button1;
+  String string_button2;
+  String string_button3;
   if(x >= 0)
     string_x = String(x,3);
   else
@@ -126,10 +136,14 @@ void loop(void)
   else
     string_w = String(w,2);
 
+
   uint8_t buf1[6];
   uint8_t buf2[6];
   uint8_t buf3[6];
-  uint8_t buf4[5];
+  uint8_t buf4[6];
+  uint8_t buf5[2]; // Button 1
+  uint8_t buf6[2]; // Button 2
+  uint8_t buf7[1]; // Button 3
   memcpy(buf1, string_x.c_str(),5);
   memcpy(buf2, string_y.c_str(),5);
   memcpy(buf3, string_z.c_str(),5);
@@ -137,10 +151,19 @@ void loop(void)
   buf1[5] = ',';
   buf2[5] = ',';
   buf3[5] = ',';
+  buf4[5] = ',';
+  buf5[0] = digitalRead(BUTTON1) + 48;
+  buf5[1] = ',';
+  buf6[0] = digitalRead(BUTTON2) + 48;
+  buf6[1] = ',';
+  buf7[0] = digitalRead(BUTTON3) + 48;
   SerialBT.write(buf1, 6);
   SerialBT.write(buf2, 6);
   SerialBT.write(buf3, 6);
-  SerialBT.write(buf4, 5);
+  SerialBT.write(buf4, 6);
+  SerialBT.write(buf5, 2);
+  SerialBT.write(buf6, 2);
+  SerialBT.write(buf7, 1);
   SerialBT.println();
 
   /* Display the floating point data */

@@ -203,16 +203,24 @@ public class BT_TEST : MonoBehaviour
         //if (float.TryParse(rotations[0], NumberStyles.Any, ci, out currentAngle.x))
         //if (float.TryParse(rotations[1], NumberStyles.Any, ci, out currentAngle.y))
         //if (float.TryParse(rotations[2], NumberStyles.Any, ci, out currentAngle.z))
+        Vector3 testOffset = new Vector3(0, 0, 0);
+        Quaternion offsetVal = Quaternion.Euler(testOffset);
+        // Config that works only when the pen is piointed downwards -y, x, -z
         if(rotations.Length == 4)
         {
-            if (float.TryParse(rotations[0], NumberStyles.Any, ci, out currentQuat.x));
-            if (float.TryParse(rotations[1], NumberStyles.Any, ci, out currentQuat.y));
-            if (float.TryParse(rotations[2], NumberStyles.Any, ci, out currentQuat.z));
+            if (float.TryParse(rotations[0], NumberStyles.Any, ci, out currentQuat.x));     
+            if (float.TryParse(rotations[1], NumberStyles.Any, ci, out currentQuat.z));         
+            if (float.TryParse(rotations[2], NumberStyles.Any, ci, out currentQuat.y));      
             if (float.TryParse(rotations[3], NumberStyles.Any, ci, out currentQuat.w));
         }
         
         transform.position = new Vector3(-5 + x * 10,5 + y * -10,-5 + z * 10);
         //transform.eulerAngles = currentAngle;
+        //currentQuat = currentQuat * offsetVal;
+        //Quaternion offsetQuat = new Quaternion(0, 0, 0, 0);
+        //currentQuat.x = -currentQuat.x;
+        currentQuat.y = -currentQuat.y;
+        //currentQuat.z = -currentQuat.z;
         transform.rotation = currentQuat;
     }
     
