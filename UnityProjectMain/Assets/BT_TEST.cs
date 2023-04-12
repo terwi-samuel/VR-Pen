@@ -82,7 +82,8 @@ public class BT_TEST : MonoBehaviour
     protected SerialThreadLines penSerialThread;
 
     private Quaternion offsetQuat = new Quaternion(0, 0, 0, 1);
-    private bool resetFlag = false;
+    private CultureInfo ci = (CultureInfo)CultureInfo.CurrentCulture.Clone();
+    //private bool resetFlag = false;
     // ------------------------------------------------------------------------
     // Invoked whenever the SerialController gameobject is activated.
     // It creates a new thread that tries to connect to the serial device
@@ -90,6 +91,8 @@ public class BT_TEST : MonoBehaviour
     // ------------------------------------------------------------------------
     void OnEnable()
     {
+        ci.NumberFormat.CurrencyDecimalSeparator = ".";
+
         xySerialThread = new SerialThreadLines(xyPortName,
                                              baudRate,
                                              reconnectionDelay,
@@ -105,7 +108,7 @@ public class BT_TEST : MonoBehaviour
                                              reconnectionDelay,
                                              maxUnreadMessages);
 
-        
+
         xyThread = new Thread(new ThreadStart(xySerialThread.RunForever));
         xyThread.Start();
 
@@ -114,7 +117,7 @@ public class BT_TEST : MonoBehaviour
 
         penThread = new Thread(new ThreadStart(penSerialThread.RunForever));
         penThread.Start();
-        
+
     }
 
     // ------------------------------------------------------------------------
@@ -156,13 +159,13 @@ public class BT_TEST : MonoBehaviour
             xyThread = null;
         }
 
-        
+
         if (zThread != null)
         {
             zThread.Join();
             zThread = null;
         }
-        
+
 
         if (penThread != null)
         {
@@ -185,76 +188,45 @@ public class BT_TEST : MonoBehaviour
             return;
 
         // Read the next message from the queue
-        string temp1 = (string)xySerialThread.ReadMessage();
-        string temp2 = (string)zSerialThread.ReadMessage();
-        string temp3 = (string)penSerialThread.ReadMessage();
+        string[] buffer = readQueue();
 
-        if (temp1 != null)
-            xyMessage = temp1;
-        if (temp2 != null)
-            zMessage = temp2;
-        if (temp3 != null)
-            penMessage = temp3;
+        if (buffer[0] != null)
+            xyMessage = buffer[0];
+        if (buffer[1] != null)
+            zMessage = buffer[1];
+        if (buffer[2] != null)
+            penMessage = buffer[2];
 
-        string[] xy = xyMessage.Split(',');
-        zMessage = zMessage.Trim();
-        string[] pen = penMessage.Split(',');
-     
-        CultureInfo ci = (CultureInfo)CultureInfo.CurrentCulture.Clone();
-        ci.NumberFormat.CurrencyDecimalSeparator = ".";
+        var messages = extractMessage();
 
-        float x = 0f,y = 0f,z = 0f;
-        //Vector3 currentAngle = new Vector3(0,0,0);
-        Quaternion currentQuat = new Quaternion(0, 0, 0, 0);
-        if(xy.Length == 2)
+        float x = 0f, y = 0f, z = 0f;
+        if (messages.xy.Length == 2)
         {
-            float.TryParse(xy[0], NumberStyles.Any, ci, out x);
-            float.TryParse(xy[1], NumberStyles.Any, ci, out y);
+            x = parseFloat(messages.xy[0]);
+            y = parseFloat(messages.xy[1]);
         }
-        float.TryParse(zMessage, NumberStyles.Any, ci, out z);
-        //if (float.TryParse(rotations[0], NumberStyles.Any, ci, out currentAngle.x))
-        //if (float.TryParse(rotations[1], NumberStyles.Any, ci, out currentAngle.y))
-        //if (float.TryParse(rotations[2], NumberStyles.Any, ci, out currentAngle.z))
-        
+        z = parseFloat(messages.z);
+
+        Quaternion currentQuat = new Quaternion(0, 0, 0, 0);
         Quaternion frontQuat = new Quaternion(0, 0, 0, 1);
         // Config that works only when the pen is piointed downwards -y, x, -z
-        if (pen.Length == 7)
+        if (messages.pen.Length == 7)
         {
-            float.TryParse(pen[X], NumberStyles.Any, ci, out currentQuat.x);
-            float.TryParse(pen[Z], NumberStyles.Any, ci, out currentQuat.z);
-            float.TryParse(pen[Y], NumberStyles.Any, ci, out currentQuat.y);
-            float.TryParse(pen[W], NumberStyles.Any, ci, out currentQuat.w);
-            currentQuat.y = -currentQuat.y;
-            if (pen[DRAW].Equals("0"))
+            currentQuat.x = parseFloat(messages.pen[X]);
+            currentQuat.y = -parseFloat(messages.pen[Y]);
+            currentQuat.z = parseFloat(messages.pen[Z]);
+            currentQuat.w = parseFloat(messages.pen[W]);
+            if (messages.pen[DRAW].Equals("0"))
                 Draw();
-            if (pen[MENU].Equals("0"))
+            if (messages.pen[MENU].Equals("0"))
                 Menu();
-            if (pen[CALIBRATE].Equals("0"))
+            if (messages.pen[CALIBRATE].Equals("0"))
             {
-                //if(resetFlag)
-               // {
-                    //offsetQuat = new Quaternion(0, 0, 0, 1);
-                   // resetFlag = false;
-
-                //}
-               // else
-              //  {
-                    offsetQuat = Quaternion.Inverse(currentQuat) * frontQuat;
-                    offsetQuat.x = 0;
-                    offsetQuat.z = 0;
-                    resetFlag = true;
-                //}
-                
+                Calibrate(currentQuat, frontQuat);
             }
         }
-        transform.position = new Vector3(x,1 + y*-1,z); // (-5 + x * 10,5 + y * -10,-5 + z * 10);
-        //transform.eulerAngles = currentAngle;
-        //currentQuat = currentQuat * offsetVal;
-        //Quaternion offsetQuat = new Quaternion(0, 0, 0, 0);
-        //currentQuat.x = -currentQuat.x;
-        //currentQuat.z = -currentQuat.z;
-        currentQuat.y = -currentQuat.y;
-        transform.rotation = currentQuat * offsetQuat;
+        transform.position = new Vector3(x - 0.5f, (float)1.5 + -y, z -0.5f);
+        transform.rotation = offsetQuat * currentQuat;
     }
 
     public void Draw()
@@ -267,11 +239,39 @@ public class BT_TEST : MonoBehaviour
 
     }
 
-    public void Calibrate()
+    public void Calibrate(Quaternion currentQuat, Quaternion frontQuat)
     {
-
+        offsetQuat = Quaternion.Inverse(currentQuat) * frontQuat;
+        offsetQuat.x = 0;
+        offsetQuat.z = 0;
     }
-    
+
+    public string[] readQueue()
+    {
+        string temp1 = (string)xySerialThread.ReadMessage();
+        string temp2 = (string)zSerialThread.ReadMessage();
+        string temp3 = (string)penSerialThread.ReadMessage();
+
+        string[] buffer = { temp1, temp2, temp3 };
+        return buffer;
+    }
+
+    public (string[] xy, string z, string[] pen) extractMessage()
+    {
+        string[] xySplit = xyMessage.Trim().Split(',');
+        string zTrim = zMessage.Trim();
+        string[] penSplit = penMessage.Trim().Split(',');
+
+        return (xySplit, zTrim, penSplit);
+    }
+
+    public float parseFloat(string input)
+    {
+        float output = 0f;
+        float.TryParse(input, NumberStyles.Any, ci, out output);
+        return output;
+    }
+
     // ------------------------------------------------------------------------
     // Executes a user-defined function before Unity closes the COM port, so
     // the user can send some tear-down message to the hardware reliably.

@@ -420,42 +420,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 195262854}
   m_CullTransparentMesh: 1
---- !u!21 &318287189
-Material:
-  serializedVersion: 6
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Sprites/Default
-  m_Shader: {fileID: 10753, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: 
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _AlphaTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - PixelSnap: 0
-    - _EnableExternalAlpha: 0
-    m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Flip: {r: 1, g: 1, b: 1, a: 1}
-    - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
-  m_BuildTextureStacks: []
 --- !u!1 &319454617 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7648503608717821314, guid: 10fbb79c84a0ef04987380a4248ba7bf,
@@ -802,17 +766,17 @@ PrefabInstance:
     - target: {fileID: 7648503608351085372, guid: 10fbb79c84a0ef04987380a4248ba7bf,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.11836
+      value: 0.03275968
       objectReference: {fileID: 0}
     - target: {fileID: 7648503608351085372, guid: 10fbb79c84a0ef04987380a4248ba7bf,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.11836
+      value: 0.03275968
       objectReference: {fileID: 0}
     - target: {fileID: 7648503608351085372, guid: 10fbb79c84a0ef04987380a4248ba7bf,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.11836
+      value: 0.03275968
       objectReference: {fileID: 0}
     - target: {fileID: 7648503608351085372, guid: 10fbb79c84a0ef04987380a4248ba7bf,
         type: 3}
@@ -827,7 +791,7 @@ PrefabInstance:
     - target: {fileID: 7648503608351085372, guid: 10fbb79c84a0ef04987380a4248ba7bf,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2
+      value: 2.0017
       objectReference: {fileID: 0}
     - target: {fileID: 7648503608351085372, guid: 10fbb79c84a0ef04987380a4248ba7bf,
         type: 3}
@@ -1013,11 +977,11 @@ PrefabInstance:
     - target: {fileID: 2348914, guid: 4d293c8e162f3874b982baadd71153d2, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 318287189}
+      objectReference: {fileID: 1553054865}
     - target: {fileID: 3380982, guid: 4d293c8e162f3874b982baadd71153d2, type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 1803185761}
+      objectReference: {fileID: 1986597767}
     - target: {fileID: 1319202761873087713, guid: 4d293c8e162f3874b982baadd71153d2,
         type: 3}
       propertyPath: m_Camera
@@ -1292,6 +1256,42 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!21 &1553054865
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Sprites/Default
+  m_Shader: {fileID: 10753, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _AlphaTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - PixelSnap: 0
+    - _EnableExternalAlpha: 0
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Flip: {r: 1, g: 1, b: 1, a: 1}
+    - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
 --- !u!1 &1578927695
 GameObject:
   m_ObjectHideFlags: 0
@@ -1467,7 +1467,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1657159164}
   m_CullTransparentMesh: 1
---- !u!43 &1803185761
+--- !u!43 &1986597767
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

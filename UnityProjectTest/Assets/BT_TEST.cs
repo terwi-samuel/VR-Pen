@@ -28,6 +28,14 @@ using System.Globalization;
  */
 public class BT_TEST : MonoBehaviour
 {
+    const int X = 0;
+    const int Z = 1;
+    const int Y = 2;
+    const int W = 3;
+    const int DRAW = 4;
+    const int MENU = 5;
+    const int CALIBRATE = 6;
+
     [Tooltip("Port name with which the SerialPort object will be created.")]
     public string xyPortName = "COM3";
     public string zPortName = "COM3";
@@ -50,7 +58,10 @@ public class BT_TEST : MonoBehaviour
 
     public string xyMessage = "0.0,0.0";
     public string zMessage = "0.0";
-    public string rotationMessage = "0.0,0.0,0.0,0.0";
+    public string penMessage = "0.0,0.0,0.0,0.0,0,0,0";
+
+    public GameObject tip;
+    public GameObject ink;
 
     // Constants used to mark the start and end of a connection. There is no
     // way you can generate clashing messages from your serial device, as I
@@ -67,10 +78,11 @@ public class BT_TEST : MonoBehaviour
     protected Thread zThread;
     protected SerialThreadLines zSerialThread;
 
-    protected Thread rotationThread;
-    protected SerialThreadLines rotationSerialThread;
+    protected Thread penThread;
+    protected SerialThreadLines penSerialThread;
 
-
+    private Quaternion offsetQuat = new Quaternion(0, 0, 0, 1);
+    private bool resetFlag = false;
     // ------------------------------------------------------------------------
     // Invoked whenever the SerialController gameobject is activated.
     // It creates a new thread that tries to connect to the serial device
@@ -88,7 +100,7 @@ public class BT_TEST : MonoBehaviour
                                              reconnectionDelay,
                                              maxUnreadMessages);
 
-        rotationSerialThread = new SerialThreadLines(rotationPortName,
+        penSerialThread = new SerialThreadLines(rotationPortName,
                                              baudRate,
                                              reconnectionDelay,
                                              maxUnreadMessages);
@@ -100,8 +112,8 @@ public class BT_TEST : MonoBehaviour
         zThread = new Thread(new ThreadStart(zSerialThread.RunForever));
         zThread.Start();
 
-        rotationThread = new Thread(new ThreadStart(rotationSerialThread.RunForever));
-        rotationThread.Start();
+        penThread = new Thread(new ThreadStart(penSerialThread.RunForever));
+        penThread.Start();
         
     }
 
@@ -131,10 +143,10 @@ public class BT_TEST : MonoBehaviour
             zSerialThread = null;
         }
 
-        if (rotationSerialThread != null)
+        if (penSerialThread != null)
         {
-            rotationSerialThread.RequestStop();
-            rotationSerialThread = null;
+            penSerialThread.RequestStop();
+            penSerialThread = null;
         }
 
         // This reference shouldn't be null at this point anyway.
@@ -152,10 +164,10 @@ public class BT_TEST : MonoBehaviour
         }
         
 
-        if (rotationThread != null)
+        if (penThread != null)
         {
-            rotationThread.Join();
-            rotationThread = null;
+            penThread.Join();
+            penThread = null;
         }
     }
 
@@ -175,19 +187,19 @@ public class BT_TEST : MonoBehaviour
         // Read the next message from the queue
         string temp1 = (string)xySerialThread.ReadMessage();
         string temp2 = (string)zSerialThread.ReadMessage();
-        string temp3 = (string)rotationSerialThread.ReadMessage();
+        string temp3 = (string)penSerialThread.ReadMessage();
 
         if (temp1 != null)
             xyMessage = temp1;
         if (temp2 != null)
             zMessage = temp2;
         if (temp3 != null)
-            rotationMessage = temp3;
+            penMessage = temp3;
 
         string[] xy = xyMessage.Split(',');
         zMessage = zMessage.Trim();
-        string[] rotations = rotationMessage.Split(',');
-
+        string[] pen = penMessage.Split(',');
+     
         CultureInfo ci = (CultureInfo)CultureInfo.CurrentCulture.Clone();
         ci.NumberFormat.CurrencyDecimalSeparator = ".";
 
@@ -196,32 +208,68 @@ public class BT_TEST : MonoBehaviour
         Quaternion currentQuat = new Quaternion(0, 0, 0, 0);
         if(xy.Length == 2)
         {
-            if (float.TryParse(xy[0], NumberStyles.Any, ci, out x));
-            if (float.TryParse(xy[1], NumberStyles.Any, ci, out y));
+            float.TryParse(xy[0], NumberStyles.Any, ci, out x);
+            float.TryParse(xy[1], NumberStyles.Any, ci, out y);
         }
-        if (float.TryParse(zMessage, NumberStyles.Any, ci, out z));
+        float.TryParse(zMessage, NumberStyles.Any, ci, out z);
         //if (float.TryParse(rotations[0], NumberStyles.Any, ci, out currentAngle.x))
         //if (float.TryParse(rotations[1], NumberStyles.Any, ci, out currentAngle.y))
         //if (float.TryParse(rotations[2], NumberStyles.Any, ci, out currentAngle.z))
-        Vector3 testOffset = new Vector3(0, 0, 0);
-        Quaternion offsetVal = Quaternion.Euler(testOffset);
-        // Config that works only when the pen is piointed downwards -y, x, -z
-        if(rotations.Length == 4)
-        {
-            if (float.TryParse(rotations[0], NumberStyles.Any, ci, out currentQuat.x));     
-            if (float.TryParse(rotations[1], NumberStyles.Any, ci, out currentQuat.z));         
-            if (float.TryParse(rotations[2], NumberStyles.Any, ci, out currentQuat.y));      
-            if (float.TryParse(rotations[3], NumberStyles.Any, ci, out currentQuat.w));
-        }
         
-        transform.position = new Vector3(-5 + x * 10,5 + y * -10,-5 + z * 10);
+        Quaternion frontQuat = new Quaternion(0, 0, 0, 1);
+        // Config that works only when the pen is piointed downwards -y, x, -z
+        if (pen.Length == 7)
+        {
+            float.TryParse(pen[X], NumberStyles.Any, ci, out currentQuat.x);
+            float.TryParse(pen[Z], NumberStyles.Any, ci, out currentQuat.z);
+            float.TryParse(pen[Y], NumberStyles.Any, ci, out currentQuat.y);
+            float.TryParse(pen[W], NumberStyles.Any, ci, out currentQuat.w);
+            currentQuat.y = -currentQuat.y;
+            if (pen[DRAW].Equals("0"))
+                Draw();
+            if (pen[MENU].Equals("0"))
+                Menu();
+            if (pen[CALIBRATE].Equals("0"))
+            {
+                //if(resetFlag)
+               // {
+                    //offsetQuat = new Quaternion(0, 0, 0, 1);
+                   // resetFlag = false;
+
+                //}
+               // else
+              //  {
+                    offsetQuat = Quaternion.Inverse(currentQuat) * frontQuat;
+                    offsetQuat.x = 0;
+                    offsetQuat.z = 0;
+                    resetFlag = true;
+                //}
+                
+            }
+        }
+        transform.position = new Vector3(x,1 + y*-1,z); // (-5 + x * 10,5 + y * -10,-5 + z * 10);
         //transform.eulerAngles = currentAngle;
         //currentQuat = currentQuat * offsetVal;
         //Quaternion offsetQuat = new Quaternion(0, 0, 0, 0);
         //currentQuat.x = -currentQuat.x;
-        currentQuat.y = -currentQuat.y;
         //currentQuat.z = -currentQuat.z;
-        transform.rotation = currentQuat;
+        currentQuat.y = -currentQuat.y;
+        transform.rotation = currentQuat * offsetQuat;
+    }
+
+    public void Draw()
+    {
+        Instantiate(ink, tip.transform.position, tip.transform.rotation);
+    }
+
+    public void Menu()
+    {
+
+    }
+
+    public void Calibrate()
+    {
+
     }
     
     // ------------------------------------------------------------------------
