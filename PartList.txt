@@ -2,15 +2,11 @@ PEN CIRCUIT:
   IMU: BNO-055, https://www.adafruit.com/product/4646, Datasheet: https://cdn-shop.adafruit.com/datasheets/BST_BNO055_DS000_12.pdf
   Microcontroller: ESP32-WROOM-32D
   3 basic push buttons
-  Vishay TSAL6400 IR LEDs
-  
-  https://www.amazon.com/Converter-Adjustable-Voltage-Regulator-Compatible/dp/B089JYBF25/ref=sr_1_10?crid=F2X3HDPVEZ4G&keywords=small%2Bstep-up%2Bbooster%2Bcircuit&qid=1680898030&sprefix=small%2Bstep-up%2Bbooster%2Bcircuit%2Caps%2C100&sr=8-10&th=1
-  
-Rechargeable AAA batteries:
-https://www.amazon.com/HiQuick-Rechargeable-Batteries-Capacity-Performance/dp/B08B3L66QL/ref=sr_1_3_sspa?crid=PAX898FYM6ZV&keywords=high%2Bmah%2Baaa%2Bbatteries&qid=1680907108&s=electronics&sprefix=high%2Bmah%2Baaa%2Bbaterries%2Celectronics%2C201&sr=1-3-spons&spLa=ZW5jcnlwdGVkUXVhbGlmaWVyPUEyVTlKNkkwVlIxNFY4JmVuY3J5cHRlZElkPUExMDQ2NTkxMzFWVkJQR0YwVFo0MSZlbmNyeXB0ZWRBZElkPUEwMTcyNzM1M0ZaODIwQUtHODNaMSZ3aWRnZXROYW1lPXNwX2F0ZiZhY3Rpb249Y2xpY2tSZWRpcmVjdCZkb05vdExvZ0NsaWNrPXRydWU&th=1
-
-Battery Holder AAA: 
-  https://www.amazon.com/Battery-Holder-Leads-Wires-pcs-AAA/dp/B08HRY2Z8R/ref=sr_1_3?keywords=aaa%2Bbattery%2Bholder&qid=1680907288&    sprefix=aaa%2Bholder%2Caps%2C203&sr=8-3&th=1
+  1 Vishay TSAL6400 IR LEDs
+  1 Rechargeable 103450 Particle 3.7 V 1800 mAh 6.66 Wh 210410 battery, https://www.amazon.com/EEMB-Battery-Rechargeable-Connector-Certified/dp/B09DPL8RZH
+ 
+Base Stations:
+  4 18650 Li-ion Rechargeable Battery 5800 mAh 3.7 V, https://www.amazon.com/18650-Rechargeable-Batteries-Household-Flashlight/dp/B0C144NWD5/ref=sr_1_3?      crid=2NNZWBH4QDPVD&keywords=18650+Li-ion+Battery+5800+mAh+3.7+V&qid=1681681579&s=electronics&sprefix=18650+li-ion+battery+5800+mah+3.7+v%2Celectronics%2C87&sr=1-3
   
   
 Oculus Quest II
