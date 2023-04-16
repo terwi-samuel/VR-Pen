@@ -106,6 +106,7 @@
 -define:ENABLE_TILEMAP
 -define:ENABLE_TIMELINE
 -define:ENABLE_INPUT_SYSTEM
+-define:ENABLE_LEGACY_INPUT_MANAGER
 -define:CSHARP_7_OR_LATER
 -define:CSHARP_7_3_OR_NEWER
 -r:"Assets/SteamVR/Input/Plugins/JSON.NET/Valve.Newtonsoft.Json.dll"
@@ -353,6 +354,7 @@
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEngine.UI.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/UnityEngine.XR.LegacyInputHelpers.ref.dll"
 -r:"Library/Bee/artifacts/1900b0aE.dag/VSSettingsProvider.ref.dll"
+"Assets/Ardity/menu_script.cs"
 "Assets/Ardity/Scripts/Samples/SampleCustomDelimiter.cs"
 "Assets/Ardity/Scripts/Samples/SampleMessageListener.cs"
 "Assets/Ardity/Scripts/Samples/SampleTearDown.cs"
@@ -368,6 +370,7 @@
 "Assets/DELET.cs"
 "Assets/Draw.cs"
 "Assets/TEXT.cs"
+"Assets/texture_selection.cs"
 -langversion:8.0
 
 /deterministic
