@@ -28,6 +28,7 @@ using System.Globalization;
  */
 public class BT_TEST : MonoBehaviour
 {
+    // Array access constants
     const int X = 0;
     const int Z = 1;
     const int Y = 2;
@@ -56,10 +57,12 @@ public class BT_TEST : MonoBehaviour
              "New messages will be discarded.")]
     public int maxUnreadMessages = 1;
 
+    // Global strings for use outside script
     public string xyMessage = "0.0,0.0";
     public string zMessage = "0.0";
     public string penMessage = "0.0,0.0,0.0,0.0,0,0,0";
 
+    // GameObjects to link pen model
     public GameObject tip;
     public GameObject ink;
 
@@ -71,7 +74,7 @@ public class BT_TEST : MonoBehaviour
     public const string SERIAL_DEVICE_CONNECTED = "__Connected__";
     public const string SERIAL_DEVICE_DISCONNECTED = "__Disconnected__";
 
-    // Internal reference to the Thread and the object that runs in it.
+    // Internal reference to the Threads and the objects that runs in it.
     protected Thread xyThread;
     protected SerialThreadLines xySerialThread;
 
@@ -182,14 +185,20 @@ public class BT_TEST : MonoBehaviour
     // ------------------------------------------------------------------------
     void Update()
     {
+        // Variable initilization
+        float x = 0f, y = 0f, z = 0f;
+        Quaternion currentQuat = new Quaternion(0, 0, 0, 0);
+        Quaternion frontQuat = new Quaternion(0, 0, 0, 1);
+
         // If the user prefers to poll the messages instead of receiving them
         // via SendMessage, then the message listener should be null.
         if (messageListener == null)
             return;
 
-        // Read the next message from the queue
+        // Read the next message from the queue for each bluetooth device
         string[] buffer = readQueue();
 
+        // If the message we recieved is not null then we update the message
         if (buffer[0] != null)
             xyMessage = buffer[0];
         if (buffer[1] != null)
@@ -197,9 +206,10 @@ public class BT_TEST : MonoBehaviour
         if (buffer[2] != null)
             penMessage = buffer[2];
 
+        // Extract the messages and put them into a single struct
         var messages = extractMessage();
 
-        float x = 0f, y = 0f, z = 0f;
+        // We must make sure both values were sent via the bluetooth connection
         if (messages.xy.Length == 2)
         {
             x = parseFloat(messages.xy[0]);
@@ -207,15 +217,18 @@ public class BT_TEST : MonoBehaviour
         }
         z = parseFloat(messages.z);
 
-        Quaternion currentQuat = new Quaternion(0, 0, 0, 0);
-        Quaternion frontQuat = new Quaternion(0, 0, 0, 1);
-        // Config that works only when the pen is piointed downwards -y, x, -z
+        // We must make sure all 7 values were sent by the pen
         if (messages.pen.Length == 7)
         {
+            // We must parse the floats for the quaternians.
+            // Note: We are using our X Y Z W constants which swap the Y and Z axis
+            // and we are negating the Y axis as well. This is to convert from the IMU's
+            // Right handed system to Unitys left handed system.
             currentQuat.x = parseFloat(messages.pen[X]);
             currentQuat.y = -parseFloat(messages.pen[Y]);
             currentQuat.z = parseFloat(messages.pen[Z]);
             currentQuat.w = parseFloat(messages.pen[W]);
+            // Here we are getting the button presses where 0 represents pressed.
             if (messages.pen[DRAW].Equals("0"))
                 Draw();
             if (messages.pen[MENU].Equals("0"))
@@ -225,12 +238,14 @@ public class BT_TEST : MonoBehaviour
                 Calibrate(currentQuat, frontQuat);
             }
         }
+        // Convert all the data we extracted into transforms to be seen in the viewport
         transform.position = new Vector3(x - 0.5f, (float)1.5 + -y, z -0.5f);
         transform.rotation = offsetQuat * currentQuat;
     }
 
     public void Draw()
     {
+        // Create "ink" spheres at the given tip object
         Instantiate(ink, tip.transform.position, tip.transform.rotation);
     }
 
@@ -241,11 +256,15 @@ public class BT_TEST : MonoBehaviour
 
     public void Calibrate(Quaternion currentQuat, Quaternion frontQuat)
     {
+        // Offset the quaternion by the difference between its orientation and the Z axis.
         offsetQuat = Quaternion.Inverse(currentQuat) * frontQuat;
         offsetQuat.x = 0;
         offsetQuat.z = 0;
     }
 
+    // ----------------------------------------------------------------------------
+    // Reads the messages from each thread and stores it into an array of strings
+    // ----------------------------------------------------------------------------
     public string[] readQueue()
     {
         string temp1 = (string)xySerialThread.ReadMessage();
@@ -256,6 +275,10 @@ public class BT_TEST : MonoBehaviour
         return buffer;
     }
 
+    // ----------------------------------------------------------
+    // This takes each message, cleans it up, and returns it as 
+    // a struct to keep all variables nice and together.
+    // ----------------------------------------------------------
     public (string[] xy, string z, string[] pen) extractMessage()
     {
         string[] xySplit = xyMessage.Trim().Split(',');
@@ -265,6 +288,9 @@ public class BT_TEST : MonoBehaviour
         return (xySplit, zTrim, penSplit);
     }
 
+    // ----------------------------------------------------------
+    // This just TryParses the given string for a float
+    // ----------------------------------------------------------
     public float parseFloat(string input)
     {
         float output = 0f;
