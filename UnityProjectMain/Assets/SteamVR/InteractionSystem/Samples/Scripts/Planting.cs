@@ -9,11 +9,19 @@ namespace Valve.VR.InteractionSystem.Sample
 {
     public class Planting : MonoBehaviour
     {
-        public SteamVR_Action_Boolean plantAction;
+        public SteamVR_Action_Boolean upAction;
+        public SteamVR_Action_Boolean leftAction;
+        public SteamVR_Action_Boolean rightAction;
+        public SteamVR_Action_Boolean downAction;
+        public SteamVR_Action_Boolean selectAction;
+
+        public SteamVR_Action_Boolean[] actions = new SteamVR_Action_Boolean[5];
 
         public Hand hand;
 
         public GameObject prefabToPlant;
+
+        public string text = "";
 
 
         private void OnEnable()
@@ -21,78 +29,60 @@ namespace Valve.VR.InteractionSystem.Sample
             if (hand == null)
                 hand = this.GetComponent<Hand>();
 
-            if (plantAction == null)
-            {
-                Debug.LogError("<b>[SteamVR Interaction]</b> No plant action assigned", this);
-                return;
-            }
-
-            plantAction.AddOnChangeListener(OnPlantActionChange, hand.handType);
+            upAction.AddOnChangeListener(UpActionChange, hand.handType);
+            rightAction.AddOnChangeListener(RightActionChange, hand.handType);
+            leftAction.AddOnChangeListener(LeftActionChange, hand.handType);
+            downAction.AddOnChangeListener(DownActionChange, hand.handType);
+            selectAction.AddOnChangeListener(SelectActionChange, hand.handType);
         }
 
         private void OnDisable()
         {
-            if (plantAction != null)
-                plantAction.RemoveOnChangeListener(OnPlantActionChange, hand.handType);
+            upAction.RemoveOnChangeListener(UpActionChange, hand.handType);
+            rightAction.RemoveOnChangeListener(RightActionChange, hand.handType);
+            leftAction.RemoveOnChangeListener(LeftActionChange, hand.handType);
+            downAction.RemoveOnChangeListener(DownActionChange, hand.handType);
+            selectAction.RemoveOnChangeListener(SelectActionChange, hand.handType);
         }
 
-        private void OnPlantActionChange(SteamVR_Action_Boolean actionIn, SteamVR_Input_Sources inputSource, bool newValue)
+        private void UpActionChange(SteamVR_Action_Boolean actionIn, SteamVR_Input_Sources inputSource, bool newValue)
         {
             if (newValue)
-            {
-                Plant();
-            }
-        }
-
-        public void Plant()
-        {
-            StartCoroutine(DoPlant());
-        }
-
-        private IEnumerator DoPlant()
-        {
-            Vector3 plantPosition;
-
-            RaycastHit hitInfo;
-            bool hit = Physics.Raycast(hand.transform.position, Vector3.down, out hitInfo);
-            if (hit)
-            {
-                plantPosition = hitInfo.point + (Vector3.up * 0.05f);
-            }
+                text = "Up is pressed";
             else
-            {
-                plantPosition = hand.transform.position;
-                plantPosition.y = Player.instance.transform.position.y;
-            }
+                text = "Up is not pressed";
+        }
 
-            GameObject planting = GameObject.Instantiate<GameObject>(prefabToPlant);
-            planting.transform.position = plantPosition;
-            planting.transform.rotation = Quaternion.Euler(0, Random.value * 360f, 0);
+        private void LeftActionChange(SteamVR_Action_Boolean actionIn, SteamVR_Input_Sources inputSource, bool newValue)
+        {
+            if (newValue)
+                text = "Left is pressed";
+            else
+                text = "Left is not pressed";
+        }
 
-            planting.GetComponentInChildren<MeshRenderer>().material.SetColor("_TintColor", Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f));
+        private void RightActionChange(SteamVR_Action_Boolean actionIn, SteamVR_Input_Sources inputSource, bool newValue)
+        {
+            if (newValue)
+                text = "Right is pressed";
+            else
+                text = "Right is not pressed";
+        }
 
-            Rigidbody rigidbody = planting.GetComponent<Rigidbody>();
-            if (rigidbody != null)
-                rigidbody.isKinematic = true;
+        private void DownActionChange(SteamVR_Action_Boolean actionIn, SteamVR_Input_Sources inputSource, bool newValue)
+        {
+            if (newValue)
+                text = "Down is pressed";
+            else
+                text = "Down is not pressed";
+        }
 
-
-
-            Vector3 initialScale = Vector3.one * 0.01f;
-            Vector3 targetScale = Vector3.one * (1 + (Random.value * 0.25f));
-
-            float startTime = Time.time;
-            float overTime = 0.5f;
-            float endTime = startTime + overTime;
-
-            while (Time.time < endTime)
-            {
-                planting.transform.localScale = Vector3.Slerp(initialScale, targetScale, (Time.time - startTime) / overTime);
-                yield return null;
-            }
-
-
-            if (rigidbody != null)
-                rigidbody.isKinematic = false;
+        private void SelectActionChange(SteamVR_Action_Boolean actionIn, SteamVR_Input_Sources inputSource, bool newValue)
+        {
+            if (newValue)
+                text = "Select is pressed";
+            else
+                text = "Select is not pressed";
         }
     }
 }

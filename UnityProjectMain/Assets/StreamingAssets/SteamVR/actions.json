@@ -50,6 +50,26 @@
       "type": "boolean"
     },
     {
+      "name": "/actions/default/in/DpadRight",
+      "type": "boolean"
+    },
+    {
+      "name": "/actions/default/in/DpadLeft",
+      "type": "boolean"
+    },
+    {
+      "name": "/actions/default/in/DpadDown",
+      "type": "boolean"
+    },
+    {
+      "name": "/actions/default/in/DpadUp",
+      "type": "boolean"
+    },
+    {
+      "name": "/actions/default/in/MenuNavigation",
+      "type": "vector2"
+    },
+    {
       "name": "/actions/default/out/Haptic",
       "type": "vibration"
     },
