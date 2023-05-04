@@ -96,6 +96,14 @@ void loop(void)
   double z = pen_quat.z();
   double w = pen_quat.w();
 
+  Serial.print(x);
+  Serial.print(",");
+  Serial.print(y);
+  Serial.print(",");
+  Serial.print(z);
+  Serial.print(",");
+  Serial.println(w);
+
   // Take Quaternion vector elements and turn them into strings  
   String string_x;
   String string_y;

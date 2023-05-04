@@ -254,9 +254,13 @@ public class Bluetooth : MonoBehaviour
     public void Draw()
     {
         // Create "ink" spheres at the given tip object
-        Instantiate(ink, tip.transform.position, tip.transform.rotation);
+        var obj = Instantiate(ink, tip.transform.position, tip.transform.rotation);
+        obj.SetActive(true);
     }
 
+
+    // update color creates a renderer for each brush type, places the color input into the switch
+    // statement and then sets the color of all brush types to the selected one
     public void updateColor(string color)
     {
         var sphereRenderer = ink.transform.GetChild(0).gameObject.GetComponent<Renderer>();
@@ -277,16 +281,19 @@ public class Bluetooth : MonoBehaviour
                 customColor = new Color(1f, 1f, 1f, 1f);
                 break;
         }
-        sphereRenderer.sharedMaterial.SetColor("_Color", customColor);
-        cubeRenderer.sharedMaterial.SetColor("_Color", customColor);
-        capsuleRenderer.sharedMaterial.SetColor("_Color", customColor);
+        sphereRenderer.material.color = customColor;
+        cubeRenderer.material.color = customColor;
+        capsuleRenderer.material.color = customColor;
     }
 
+    // update size updates the size of the ink object to the selected size
     public void updateSize(float size)
     {
         ink.transform.localScale = new Vector3(size,size,size);
     }
 
+
+    // update texture first disables all the brush types then enables the selected one
     public void updateTexture(int selection)
     {
         ink.transform.GetChild(0).gameObject.SetActive(false);
@@ -297,17 +304,13 @@ public class Bluetooth : MonoBehaviour
     }
 
     
-
+    // Menu function just enables and disables the menu
     public void Menu()
     {
         if (textures.activeInHierarchy)
-        {
             textures.SetActive(false);
-        }
         else
-        {
             textures.SetActive(true);
-        }
     }
 
     public void Calibrate(Quaternion currentQuat, Quaternion frontQuat)

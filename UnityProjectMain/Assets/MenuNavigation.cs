@@ -7,7 +7,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using Valve.VR.InteractionSystem;
 
-namespace Valve.VR.InteractionSystem.Sample
+namespace Valve.VR.InteractionSystem
 {
     public class MenuNavigation : MonoBehaviour
     {
@@ -17,11 +17,7 @@ namespace Valve.VR.InteractionSystem.Sample
         public SteamVR_Action_Boolean downAction;
         public SteamVR_Action_Boolean selectAction;
 
-        public SteamVR_Action_Boolean[] actions = new SteamVR_Action_Boolean[5];
-
         public Hand hand;
-
-        public string text = "";
 
         public Button texture1btn;
         public Button texture2btn;
@@ -39,6 +35,8 @@ namespace Valve.VR.InteractionSystem.Sample
         private int selectedRow = 0;
         private int selectedCol = 0;
 
+
+        // here we create change listeners for each specific button mapping we created
         private void OnEnable()
         {
             if (hand == null)
@@ -51,6 +49,8 @@ namespace Valve.VR.InteractionSystem.Sample
             selectAction.AddOnChangeListener(SelectActionChange, hand.handType);
         }
 
+
+        // here we disable those listeners
         private void OnDisable()
         {
             upAction.RemoveOnChangeListener(UpActionChange, hand.handType);
@@ -60,6 +60,8 @@ namespace Valve.VR.InteractionSystem.Sample
             selectAction.RemoveOnChangeListener(SelectActionChange, hand.handType);
         }
 
+
+        // initilize the buttons array with all of the buttons
         private void Start()
         {
             buttons[0, 0] = texture1btn;
@@ -75,6 +77,7 @@ namespace Valve.VR.InteractionSystem.Sample
             buttons[2, 2] = size3btn;
         }
 
+        // highlights the selected button
         private void Update()
         {
             foreach(Button btn in buttons)
@@ -84,6 +87,7 @@ namespace Valve.VR.InteractionSystem.Sample
             buttons[selectedRow, selectedCol].GetComponent<Image>().color = Color.red;
         }
 
+        // All of the below directional changes move the selected button highlight
         private void UpActionChange(SteamVR_Action_Boolean actionIn, SteamVR_Input_Sources inputSource, bool newValue)
         {
             if (newValue)
@@ -112,6 +116,7 @@ namespace Valve.VR.InteractionSystem.Sample
                     selectedRow++;
         }
 
+        // the select button invokes the onclick of the selected button.
         private void SelectActionChange(SteamVR_Action_Boolean actionIn, SteamVR_Input_Sources inputSource, bool newValue)
         {
             if (newValue)

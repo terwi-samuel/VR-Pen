@@ -359,15 +359,8 @@
 "Assets/Ardity/Scripts/Threads/SerialThreadCustomDelimiter.cs"
 "Assets/Ardity/Scripts/Threads/SerialThreadLines.cs"
 "Assets/Bluetooth.cs"
-"Assets/DELET.cs"
-"Assets/Draw.cs"
-"Assets/Menu.cs"
 "Assets/MenuNavigation.cs"
-"Assets/menu_script.cs"
 "Assets/Samples/Input System/1.0.2/Custom Device/CustomDevice.cs"
-"Assets/scr.cs"
-"Assets/TEXT.cs"
-"Assets/texture_selection.cs"
 -langversion:8.0
 
 /deterministic

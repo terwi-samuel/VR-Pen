@@ -53,9 +53,11 @@ void Write_8bytes(byte d1, byte d2, byte d3, byte d4, byte d5, byte d6, byte d7,
 void setup()
 {
     slaveAddress = IRsensorAddress >> 1;   // This results in 0x21 as the address to pass to TWI
+    Serial.begin(19200);
     pinMode(ledPin, OUTPUT);      // Set the LED pin as output
     Wire.begin();
     SerialBT.begin("ESP32_XY_Camera"); //Bluetooth device name
+    Serial.println("The device started, now you can pair it with bluetooth!");
     Write_2bytes(0x30,0x08); delay(100);
     Write_8bytes(0x00,0x00,0x00,0x00,0x00,0x00,0x00,0xFF); delay(100); //0x90 for high, 0xFF for max
     Write_3bytes(0x07,0x00,0x0C); delay(100); //0x41 for high, 0x0C for max

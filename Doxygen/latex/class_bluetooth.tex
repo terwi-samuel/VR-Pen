@@ -1,0 +1,134 @@
+\hypertarget{class_bluetooth}{}\doxysection{Bluetooth Class Reference}
+\label{class_bluetooth}\index{Bluetooth@{Bluetooth}}
+Inheritance diagram for Bluetooth\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_bluetooth}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_bluetooth_aafaebd5060c86c9b872e19546fec4259}\label{class_bluetooth_aafaebd5060c86c9b872e19546fec4259}} 
+void {\bfseries Draw} ()
+\item 
+\mbox{\Hypertarget{class_bluetooth_a07c4f8fb915cb0359814c0d383fd8e4c}\label{class_bluetooth_a07c4f8fb915cb0359814c0d383fd8e4c}} 
+void {\bfseries update\+Color} (string color)
+\item 
+\mbox{\Hypertarget{class_bluetooth_a0b86be4b882282ab871531e4ce7a63e3}\label{class_bluetooth_a0b86be4b882282ab871531e4ce7a63e3}} 
+void {\bfseries update\+Size} (float size)
+\item 
+\mbox{\Hypertarget{class_bluetooth_a13ebd9f87ac3f7ec76ded6bdd01b1595}\label{class_bluetooth_a13ebd9f87ac3f7ec76ded6bdd01b1595}} 
+void {\bfseries update\+Texture} (int selection)
+\item 
+\mbox{\Hypertarget{class_bluetooth_ab911efc0ab2d0fd90129fbe17a92a589}\label{class_bluetooth_ab911efc0ab2d0fd90129fbe17a92a589}} 
+void {\bfseries Menu} ()
+\item 
+\mbox{\Hypertarget{class_bluetooth_aad68881d7c71cd7ae743b2dbac580b2f}\label{class_bluetooth_aad68881d7c71cd7ae743b2dbac580b2f}} 
+void {\bfseries Calibrate} (Quaternion current\+Quat, Quaternion front\+Quat)
+\item 
+\mbox{\Hypertarget{class_bluetooth_a0caa236284df0d6d05ca040f3cb4dc2c}\label{class_bluetooth_a0caa236284df0d6d05ca040f3cb4dc2c}} 
+string\mbox{[}$\,$\mbox{]} {\bfseries read\+Queue} ()
+\item 
+\mbox{\Hypertarget{class_bluetooth_af96ea703dfc43e0753e7102b76518c22}\label{class_bluetooth_af96ea703dfc43e0753e7102b76518c22}} 
+string\mbox{[}$\,$\mbox{]} string string\mbox{[}$\,$\mbox{]} pen {\bfseries extract\+Message} ()
+\item 
+\mbox{\Hypertarget{class_bluetooth_a1f828f50898e1c00b4847bcb5466feb9}\label{class_bluetooth_a1f828f50898e1c00b4847bcb5466feb9}} 
+float {\bfseries parse\+Float} (string input)
+\item 
+\mbox{\Hypertarget{class_bluetooth_a6543bba6521e195080652b003bdc1f4a}\label{class_bluetooth_a6543bba6521e195080652b003bdc1f4a}} 
+delegate void {\bfseries Tear\+Down\+Function} ()
+\item 
+\mbox{\Hypertarget{class_bluetooth_a6fc6060c07c1bccfdcdc0ef4f693abbc}\label{class_bluetooth_a6fc6060c07c1bccfdcdc0ef4f693abbc}} 
+void {\bfseries Set\+Tear\+Down\+Function} (Tear\+Down\+Function user\+Function)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_bluetooth_a739ff25ac4f554a014a8ef5b625ba2fd}\label{class_bluetooth_a739ff25ac4f554a014a8ef5b625ba2fd}} 
+string {\bfseries xy\+Port\+Name} = \char`\"{}COM3\char`\"{}
+\item 
+\mbox{\Hypertarget{class_bluetooth_a41ec1e5ea329344798330b7833d83d28}\label{class_bluetooth_a41ec1e5ea329344798330b7833d83d28}} 
+string {\bfseries z\+Port\+Name} = \char`\"{}COM3\char`\"{}
+\item 
+\mbox{\Hypertarget{class_bluetooth_af33a6ffb395f77f3accb57cfbe4ff71b}\label{class_bluetooth_af33a6ffb395f77f3accb57cfbe4ff71b}} 
+string {\bfseries rotation\+Port\+Name} = \char`\"{}COM3\char`\"{}
+\item 
+\mbox{\Hypertarget{class_bluetooth_a614cac4cd9accc22ad536c8455aa6d30}\label{class_bluetooth_a614cac4cd9accc22ad536c8455aa6d30}} 
+int {\bfseries baud\+Rate} = 9600
+\item 
+\mbox{\Hypertarget{class_bluetooth_ac3160e8e8ca16d5f86b707da62c7be70}\label{class_bluetooth_ac3160e8e8ca16d5f86b707da62c7be70}} 
+Game\+Object {\bfseries message\+Listener}
+\item 
+\mbox{\Hypertarget{class_bluetooth_a27af85817b3da278c863d4df31ae3ef8}\label{class_bluetooth_a27af85817b3da278c863d4df31ae3ef8}} 
+int {\bfseries reconnection\+Delay} = 1000
+\item 
+\mbox{\Hypertarget{class_bluetooth_a67554a6cb28cebac4714e95de3039038}\label{class_bluetooth_a67554a6cb28cebac4714e95de3039038}} 
+int {\bfseries max\+Unread\+Messages} = 1
+\item 
+\mbox{\Hypertarget{class_bluetooth_a9fd65beb212d153a40945002230cd07b}\label{class_bluetooth_a9fd65beb212d153a40945002230cd07b}} 
+string {\bfseries xy\+Message} = \char`\"{}0.\+0,0.\+0\char`\"{}
+\item 
+\mbox{\Hypertarget{class_bluetooth_a9d69d7256fe3de39f0b95470a2f2ab81}\label{class_bluetooth_a9d69d7256fe3de39f0b95470a2f2ab81}} 
+string {\bfseries z\+Message} = \char`\"{}0.\+0\char`\"{}
+\item 
+\mbox{\Hypertarget{class_bluetooth_a4ed4e0c194a578980ac55d92e8deec1a}\label{class_bluetooth_a4ed4e0c194a578980ac55d92e8deec1a}} 
+string {\bfseries pen\+Message} = \char`\"{}0.\+0,0.\+0,0.\+0,0.\+0,0,0,0\char`\"{}
+\item 
+\mbox{\Hypertarget{class_bluetooth_a32a6ccad4362542f0c73917776549e9f}\label{class_bluetooth_a32a6ccad4362542f0c73917776549e9f}} 
+Game\+Object {\bfseries textures}
+\item 
+\mbox{\Hypertarget{class_bluetooth_a346c3175b9cae27b8e8e7f1753b30d87}\label{class_bluetooth_a346c3175b9cae27b8e8e7f1753b30d87}} 
+Game\+Object {\bfseries tip}
+\item 
+\mbox{\Hypertarget{class_bluetooth_a5a8205809991281fe672df50bf635efc}\label{class_bluetooth_a5a8205809991281fe672df50bf635efc}} 
+Game\+Object {\bfseries ink}
+\item 
+\mbox{\Hypertarget{class_bluetooth_a926e10b40b42c8a80e66639d39568a5f}\label{class_bluetooth_a926e10b40b42c8a80e66639d39568a5f}} 
+string\mbox{[}$\,$\mbox{]} {\bfseries xy}
+\item 
+\mbox{\Hypertarget{class_bluetooth_ae12ccf0b8117853b60e44bd4551c0bc6}\label{class_bluetooth_ae12ccf0b8117853b60e44bd4551c0bc6}} 
+string\mbox{[}$\,$\mbox{]} string {\bfseries z}
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_bluetooth_a97bff70aabe017d98dcf11566393b6f6}\label{class_bluetooth_a97bff70aabe017d98dcf11566393b6f6}} 
+const string {\bfseries SERIAL\+\_\+\+DEVICE\+\_\+\+CONNECTED} = \char`\"{}\+\_\+\+\_\+\+Connected\+\_\+\+\_\+\char`\"{}
+\item 
+\mbox{\Hypertarget{class_bluetooth_a580cab52deb5136b61dddc8926a89536}\label{class_bluetooth_a580cab52deb5136b61dddc8926a89536}} 
+const string {\bfseries SERIAL\+\_\+\+DEVICE\+\_\+\+DISCONNECTED} = \char`\"{}\+\_\+\+\_\+\+Disconnected\+\_\+\+\_\+\char`\"{}
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_bluetooth_a47f9c786a55ea70f2bca82e2d14a1ab7}\label{class_bluetooth_a47f9c786a55ea70f2bca82e2d14a1ab7}} 
+Thread {\bfseries xy\+Thread}
+\item 
+\mbox{\Hypertarget{class_bluetooth_ab5ff6ac92c8bffbe665cc3786ddb3128}\label{class_bluetooth_ab5ff6ac92c8bffbe665cc3786ddb3128}} 
+Serial\+Thread\+Lines {\bfseries xy\+Serial\+Thread}
+\item 
+\mbox{\Hypertarget{class_bluetooth_a9605457bab5fa54c4a19f57337361b2b}\label{class_bluetooth_a9605457bab5fa54c4a19f57337361b2b}} 
+Thread {\bfseries z\+Thread}
+\item 
+\mbox{\Hypertarget{class_bluetooth_aaad097d03de65c3e5913d9f1f4dc8ffe}\label{class_bluetooth_aaad097d03de65c3e5913d9f1f4dc8ffe}} 
+Serial\+Thread\+Lines {\bfseries z\+Serial\+Thread}
+\item 
+\mbox{\Hypertarget{class_bluetooth_a10986cec393e98326614f593caa73916}\label{class_bluetooth_a10986cec393e98326614f593caa73916}} 
+Thread {\bfseries pen\+Thread}
+\item 
+\mbox{\Hypertarget{class_bluetooth_aae3f475d4c0a595c78b22936be18fbbf}\label{class_bluetooth_aae3f475d4c0a595c78b22936be18fbbf}} 
+Serial\+Thread\+Lines {\bfseries pen\+Serial\+Thread}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+This class allows a Unity program to continually check for messages from a serial device.
+
+It creates a Thread that communicates with the serial port and continually polls the messages on the wire. That Thread puts all the messages inside a Queue, and this Serial\+Controller class polls that queue by means of invoking Serial\+Thread.\+Get\+Serial\+Message().
+
+The serial device must send its messages separated by a newline character. Neither the Serial\+Controller nor the Serial\+Thread perform any validation on the integrity of the message. It\textquotesingle{}s up to the one that makes sense of the data. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Bluetooth.\+cs\end{DoxyCompactItemize}
