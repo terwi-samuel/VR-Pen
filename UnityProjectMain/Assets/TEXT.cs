@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class TEXT : MonoBehaviour
 {
     public Text textElement;
-    public BT_TEST bt;
+    public Bluetooth bt;
     public Draw draw;
     // Start is called before the first frame update
     void Start()
