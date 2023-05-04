@@ -60,8 +60,12 @@ void setup(void)
 
   bno.setExtCrystalUse(true);
 
+  Serial.println("Calibration status values: 0=uncalibrated, 3=fully calibrated");
+  Serial.println("Calibration status values: 0=uncalibrated, 3=fully calibrated");
+
   // Setup Bluetooth and push buttons
   SerialBT.begin("ESP32_PEN"); //Bluetooth device name
+  Serial.println("The device started, now you can pair it with bluetooth!");
   pinMode(BUTTON1, INPUT_PULLUP);
   pinMode(BUTTON2, INPUT_PULLUP);
   pinMode(BUTTON3, INPUT_PULLUP);  
@@ -151,6 +155,9 @@ void loop(void)
   SerialBT.write(buf6, 2);
   SerialBT.write(buf7, 1);
   SerialBT.println();
+
+  uint8_t system, gyro, accel, mag = 0;
+  bno.getCalibration(&system, &gyro, &accel, &mag);
 
   delay(15);
 }
