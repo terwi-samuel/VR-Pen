@@ -89,6 +89,9 @@ public class Bluetooth : MonoBehaviour
     private Quaternion offsetQuat = new Quaternion(0, 0, 0, 1);
     private CultureInfo ci = (CultureInfo)CultureInfo.CurrentCulture.Clone();
     private bool heldDown;
+    private Renderer sphereRenderer;
+    private Renderer cubeRenderer;
+    private Renderer capsuleRenderer;
     //private bool resetFlag = false;
     // ------------------------------------------------------------------------
     // Invoked whenever the SerialController gameobject is activated.
@@ -180,6 +183,13 @@ public class Bluetooth : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        sphereRenderer = ink.transform.GetChild(0).gameObject.GetComponent<Renderer>();
+        cubeRenderer = ink.transform.GetChild(1).gameObject.GetComponent<Renderer>();
+        capsuleRenderer = ink.transform.GetChild(2).gameObject.GetComponent<Renderer>();
+    }
+
     // ------------------------------------------------------------------------
     // Polls messages from the queue that the SerialThread object keeps. Once a
     // message has been polled it is removed from the queue. There are some
@@ -263,11 +273,7 @@ public class Bluetooth : MonoBehaviour
     // statement and then sets the color of all brush types to the selected one
     public void updateColor(string color)
     {
-        var sphereRenderer = ink.transform.GetChild(0).gameObject.GetComponent<Renderer>();
-        var cubeRenderer = ink.transform.GetChild(1).gameObject.GetComponent<Renderer>();
-        var capsuleRenderer = ink.transform.GetChild(2).gameObject.GetComponent<Renderer>();
         Color customColor = new Color();
-
 
         switch (color)
         {
