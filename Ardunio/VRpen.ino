@@ -58,19 +58,10 @@ void setup(void)
 
   delay(1000);
 
-  /* Display the current temperature */
-  // int8_t temp = bno.getTemp();
-  // Serial.print("Current Temperature: ");
-  // Serial.print(temp);
-  // Serial.println(" C");
-  // Serial.println("");
-
   bno.setExtCrystalUse(true);
 
-  Serial.println("Calibration status values: 0=uncalibrated, 3=fully calibrated");
-  Serial.println("Calibration status values: 0=uncalibrated, 3=fully calibrated");
+  // Setup Bluetooth and push buttons
   SerialBT.begin("ESP32_PEN"); //Bluetooth device name
-  Serial.println("The device started, now you can pair it with bluetooth!");
   pinMode(BUTTON1, INPUT_PULLUP);
   pinMode(BUTTON2, INPUT_PULLUP);
   pinMode(BUTTON3, INPUT_PULLUP);  
@@ -92,7 +83,7 @@ void loop(void)
   // - VECTOR_GRAVITY       - m/s^2
   imu::Vector<3> euler = bno.getVector(Adafruit_BNO055::VECTOR_EULER);
 
-  //Get Quaternion vector
+  //Get Quaternion vector and rotate it by 90 degrees to line up the front of the IMU with the pen
   imu::Quaternion raw_quat = bno.getQuat();
   imu::Quaternion offset_quat = imu::Quaternion(-0.7071,0,0,-0.7071); // 0.7071,0,0,-0.7071
   imu::Quaternion pen_quat = raw_quat * offset_quat;
@@ -101,14 +92,7 @@ void loop(void)
   double z = pen_quat.z();
   double w = pen_quat.w();
 
-  Serial.print(x);
-  Serial.print(",");
-  Serial.print(y);
-  Serial.print(",");
-  Serial.print(z);
-  Serial.print(",");
-  Serial.println(w);
-
+  // Take Quaternion vector elements and turn them into strings  
   String string_x;
   String string_y;
   String string_z;
@@ -136,7 +120,9 @@ void loop(void)
   else
     string_w = String(w,2);
 
-
+  // Take Quaternion strings and prepare uint8_t buffers with commas at the end of each buffer except the last
+  // The bushbutton buffers are simlpy filled by reading their status and adding the decimal value 48 to get '1' and '0' characters 
+  // Buffers are what will be transmitted over Bluetooth to Unity
   uint8_t buf1[6];
   uint8_t buf2[6];
   uint8_t buf3[6];
@@ -165,42 +151,6 @@ void loop(void)
   SerialBT.write(buf6, 2);
   SerialBT.write(buf7, 1);
   SerialBT.println();
-
-  /* Display the floating point data */
-  //Serial.print("X: ");
-  // Serial.print(euler.x());
-  // Serial.print(",");
-  // Serial.print(euler.y());
-  // Serial.print(",");
-  // Serial.println(euler.z());
-
-  //Serial.print("\t\t");
-
-  /*
-  // Quaternion data
-  imu::Quaternion quat = bno.getQuat();
-  Serial.print("qW: ");
-  Serial.print(quat.w(), 4);
-  Serial.print(" qX: ");
-  Serial.print(quat.x(), 4);
-  Serial.print(" qY: ");
-  Serial.print(quat.y(), 4);
-  Serial.print(" qZ: ");
-  Serial.print(quat.z(), 4);
-  Serial.print("\t\t");
-  */
-
-  /* Display calibration status for each sensor. */
-  uint8_t system, gyro, accel, mag = 0;
-  bno.getCalibration(&system, &gyro, &accel, &mag);
-  // Serial.print("CALIBRATION: Sys=");
-  // Serial.print(system, DEC);
-  // Serial.print(" Gyro=");
-  // Serial.print(gyro, DEC);
-  // Serial.print(" Accel=");
-  // Serial.print(accel, DEC);
-  // Serial.print(" Mag=");
-  // Serial.println(mag, DEC);
 
   delay(15);
 }
