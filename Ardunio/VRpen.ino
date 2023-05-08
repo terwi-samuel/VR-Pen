@@ -11,6 +11,24 @@
 
 BluetoothSerial SerialBT;
 
+double x;
+double y;
+double z;
+double w;
+
+uint8_t buf1[6];
+uint8_t buf2[6];
+uint8_t buf3[6];
+uint8_t buf4[6];
+uint8_t buf5[2]; // Button 1
+uint8_t buf6[2]; // Button 2
+uint8_t buf7[1]; // Button 3
+
+imu::Quaternion raw_quat;
+imu::Quaternion offset_quat; 
+imu::Quaternion pen_quat;
+
+
 /* This driver reads raw data from the BNO055
 
    Connections
@@ -60,12 +78,10 @@ void setup(void)
 
   bno.setExtCrystalUse(true);
 
-  Serial.println("Calibration status values: 0=uncalibrated, 3=fully calibrated");
-  Serial.println("Calibration status values: 0=uncalibrated, 3=fully calibrated");
-
   // Setup Bluetooth and push buttons
   SerialBT.begin("ESP32_PEN"); //Bluetooth device name
   Serial.println("The device started, now you can pair it with bluetooth!");
+  delay(100);
   pinMode(BUTTON1, INPUT_PULLUP);
   pinMode(BUTTON2, INPUT_PULLUP);
   pinMode(BUTTON3, INPUT_PULLUP);  
@@ -85,16 +101,15 @@ void loop(void)
   // - VECTOR_EULER         - degrees
   // - VECTOR_LINEARACCEL   - m/s^2
   // - VECTOR_GRAVITY       - m/s^2
-  imu::Vector<3> euler = bno.getVector(Adafruit_BNO055::VECTOR_EULER);
 
   //Get Quaternion vector and rotate it by 90 degrees to line up the front of the IMU with the pen
-  imu::Quaternion raw_quat = bno.getQuat();
-  imu::Quaternion offset_quat = imu::Quaternion(-0.7071,0,0,-0.7071); // 0.7071,0,0,-0.7071
-  imu::Quaternion pen_quat = raw_quat * offset_quat;
-  double x = pen_quat.x();
-  double y = pen_quat.y();
-  double z = pen_quat.z();
-  double w = pen_quat.w();
+  raw_quat = bno.getQuat();
+  offset_quat = imu::Quaternion(-0.7071,0,0,-0.7071); // 0.7071,0,0,-0.7071
+  pen_quat = raw_quat * offset_quat;
+  x = pen_quat.x();
+  y = pen_quat.y();
+  z = pen_quat.z();
+  w = pen_quat.w();
 
   Serial.print(x);
   Serial.print(",");
@@ -135,13 +150,6 @@ void loop(void)
   // Take Quaternion strings and prepare uint8_t buffers with commas at the end of each buffer except the last
   // The bushbutton buffers are simlpy filled by reading their status and adding the decimal value 48 to get '1' and '0' characters 
   // Buffers are what will be transmitted over Bluetooth to Unity
-  uint8_t buf1[6];
-  uint8_t buf2[6];
-  uint8_t buf3[6];
-  uint8_t buf4[6];
-  uint8_t buf5[2]; // Button 1
-  uint8_t buf6[2]; // Button 2
-  uint8_t buf7[1]; // Button 3
   memcpy(buf1, string_x.c_str(),5);
   memcpy(buf2, string_y.c_str(),5);
   memcpy(buf3, string_z.c_str(),5);
@@ -163,9 +171,6 @@ void loop(void)
   SerialBT.write(buf6, 2);
   SerialBT.write(buf7, 1);
   SerialBT.println();
-
-  uint8_t system, gyro, accel, mag = 0;
-  bno.getCalibration(&system, &gyro, &accel, &mag);
 
   delay(15);
 }
